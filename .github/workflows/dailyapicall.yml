@@ -1,0 +1,26 @@
+name: Daily API Call
+
+on:
+  schedule:
+    # Runs at 12:00 UTC every day
+    - cron: '0 12 * * *'
+  # Optional: Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Django API Endpoint
+        run: |
+          curl -X GET https://trumpdjango-production.up.railway.app/store/
+      
+      - name: Check API Response
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://trumpdjango-production.up.railway.app/store/)
+          if [[ $RESPONSE -ge 200 && $RESPONSE -lt 300 ]]; then
+            echo "API call successful with response code: $RESPONSE"
+          else
+            echo "API call failed with response code: $RESPONSE"
+            exit 1
+          fi

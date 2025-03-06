@@ -2,6 +2,7 @@ import requests
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import NewsArticle
+from django.shortcuts import render
 
 # Endpoint to fetch and store news articles containing "Trump"
 @require_http_methods(["GET"])
@@ -31,3 +32,6 @@ def read_news(request):
     articles = NewsArticle.objects.all()
     data = [{"title": article.title, "link": article.link} for article in articles]
     return JsonResponse(data, safe=False)
+
+def index(request):
+    return render(request, 'index.html')

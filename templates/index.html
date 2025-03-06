@@ -1,0 +1,130 @@
+<!--
+File: index.html
+Created Date: Thursday March 6th 2025 11:18:58
+Author: ristoxxx@github.com
+-----
+Last Modified: Thursday March 6th 2025 11:20:48
+Modified By: ristoxxx@github.com
+-----
+Copyright (c) 2025 ristoxxx@github.com
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trump news</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .news-container {
+            margin-top: 20px;
+        }
+        .news-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            color: #333;
+        }
+        .news-link {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .news-link:hover {
+            background-color: #0052a3;
+        }
+        .loading, .error {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latest News</h1>
+    
+    <div id="news-container" class="news-container">
+        <div class="loading">Loading news articles...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsContainer = document.getElementById('news-container');
+            
+            // Fetch news from your existing endpoint
+            fetch('https://trumpdjango-production.up.railway.app/read/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear loading message
+                    newsContainer.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        newsContainer.innerHTML = '<div class="error">No news articles found.</div>';
+                        return;
+                    }
+                    
+                    // Create HTML for each news item
+                    data.forEach(item => {
+                        const newsItem = document.createElement('div');
+                        newsItem.className = 'news-item';
+                        
+                        // Create title
+                        const title = document.createElement('h2');
+                        title.className = 'news-title';
+                        title.textContent = item.title;
+                        
+                        // Create link button
+                        const link = document.createElement('a');
+                        link.className = 'news-link';
+                        link.href = item.link;
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.textContent = 'Read Article';
+                        
+                        // Add elements to news item
+                        newsItem.appendChild(title);
+                        newsItem.appendChild(link);
+                        
+                        // Add news item to container
+                        newsContainer.appendChild(newsItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching news:', error);
+                    newsContainer.innerHTML = '<div class="error">Failed to load news articles. Please try again later.</div>';
+                });
+        });
+    </script>
+</body>
+</html>

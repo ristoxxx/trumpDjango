@@ -1,0 +1,10 @@
+{
+    "exemptions": [
+      "README.md",
+      "*.md",
+      "LICENSE",
+      "CONTRIBUTING.md",
+      "docs/**",
+      ".learnings/**"
+    ]
+  }

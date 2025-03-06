@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i=6h=2xc!me7!_^1h=d1g)o+anz$a29&9a74xk@rl0c6x-n^9u'
+SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*'] 
+if DEBUG:
+    # For development only
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    # For production
+    ALLOWED_HOSTS = ['trumpdjango-production.up.railway.app']
+
+# Additional security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
 
 
 # Application definition
@@ -77,9 +90,11 @@ WSGI_APPLICATION = 'news_backend.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
-        conn_max_age=600)
+         'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    )
 }
+# default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
+#        conn_max_age=600)
 # 'ENGINE': 'django.db.backends.sqlite3',
 # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 

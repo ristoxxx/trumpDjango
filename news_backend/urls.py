@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
-from news.views import index
+from news.views import index, index2
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
-    path('', index, name='index'), 
+    path('', index, name='index'),
+    path('game/', index2, name='index2'),
 ]

@@ -1,9 +1,9 @@
 # Trump News Breakout Game
-[![Daily API Call](https://github.com/ristoxxx/trumpDjango/actions/workflows/dailyapicall.yml/badge.svg)](https://github.com/ristoxxx/trumpDjango/actions/workflows/dailyapicall.yml)
+[![Daily API Call](https://github.com/ristoxxx/trumpDjango/actions/workflows/dailyapicall.yml/badge.svg)](https://github.com/ristoxxx/trumpDjango/actions/workflows/dailyapicall.yml) [![Hosted at:](https://img.shields.io/badge/Hosted%20at-Here-blue)](mailto:lahteri@gmail.com)
  
 A web-based Atari Breakout clone that turns news headlines into breakable blocks, inspired by Google's Breakout easter egg.
-Hosted at [Railway](https://trumpdjango-production.up.railway.app/game)  
-[![Hire Me](https://img.shields.io/badge/Hire%20Me-Contact%20Now-brightgreen)](mailto:lahteri@gmail.com)
+ 
+
 <p align="center">
 <img src="./img.PNG" width="600"><br>
 <strong>Game sreenshot</strong>
